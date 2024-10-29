@@ -7,9 +7,9 @@ spring:
     name: micro-service-course
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/coursesDB
+    url: jdbc:postgresql://postgrest_container_DB:5435/coursesDB
     username: postgres
-    password: root
+    password: admin
   jpa:
     hibernate:
       ddl-auto: update
@@ -21,7 +21,7 @@ eureka:
     hostname: localhost
   client:
     service-url:
-      defaultZooServer: http://localhost:8761/eureka
+      defaultZone: http://micro-service-eureka:8761/eureka
 
 logging:
   pattern:

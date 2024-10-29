@@ -1,5 +1,37 @@
+server:
+  port: 8092
+  forward-headers-strategy: framework
+
+jw:
+  secret:
+    key: 586E3272357538782F413F4428472B4B6250655368566B597033733676397924
+  time:
+    expiration: 3600000 #una hora
+
 spring:
   application:
     name: micro-service-auth
   config:
-    import: optional:configserver:http://localhost:8888
+    import: "optional:configserver:http://localhost:8888"
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://mysql_container_DB:3306/micro_services
+    username: admin
+    password: admin
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQLDialect
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://micro-service-eureka:8761/eureka
+
+springdoc:
+  version: '@springdoc.version@'
+  api-docs:
+    version: openapi_3_1
+  cache:
+    disabled: true

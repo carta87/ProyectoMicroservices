@@ -11,6 +11,7 @@ import com.microservice.course.repository.ICourseRepository;
 import com.microservice.course.service.ICourseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -61,13 +62,13 @@ public class CourseService implements ICourseService {
         CourseEntity courseEntity = iCourseRepository.findByNumberCourse(numberCourse).orElse(new CourseEntity());
 
         //obtener los estudiantes del curso
-        List<StudentDTO> students = studentClient.findAllStudentByCourse(numberCourse);
+        ResponseEntity<List<StudentDTO>> students = studentClient.findAllStudentByCourse(numberCourse);
 
         //construir el response
         return StudentByCourseResponse.builder()
                 .courseName(courseEntity.getName())
                 .teacher(courseEntity.getTeacher() == null ? "": courseEntity.getTeacher())
-                .studentDTOList(students)
+                .studentDTOList(students.getBody())
                 .build();
     }
 

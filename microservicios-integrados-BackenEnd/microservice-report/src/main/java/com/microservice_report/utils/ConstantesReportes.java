@@ -3,13 +3,13 @@ package com.microservice_report.utils;
 import java.io.File;
 
 public final class ConstantesReportes {
-    public static final String PATH_DESTINACION_PRINCIPAL = "microservice-report" + File.separator +
+    public static final String PATH_DESTINACION_PRINCIPAL =
             "src" + File.separator +
             "main"+ File.separator +
             "resources"+ File.separator +
             "static" + File.separator ;
 
-    public static final String PATH_ORIGIN_PRINCIPAL = "microservice-report" + File.separator +
+    public static final String PATH_ORIGIN_PRINCIPAL =
             "src" + File.separator +
             "main"+ File.separator +
             "resources"+ File.separator +
