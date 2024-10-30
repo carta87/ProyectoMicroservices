@@ -5,12 +5,12 @@ FROM openjdk:17-jdk-slim
 RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
 
 # DEFINIR DIRECTORIO RAIZ DE NUESTRO CONTENEDOR
-WORKDIR /root/microservice-student
+WORKDIR /root
 
 # COPIAR Y PEGAR ARCHIVOS DENTRO DEL CONTENEDOR
-COPY ./pom.xml /root/microservice-student
-COPY ./.mvn /root/microservice-student/.mvn
-COPY ./mvnw /root/microservice-student
+COPY ./pom.xml /root
+COPY ./.mvn /root/.mvn
+COPY ./mvnw /root
 
 EXPOSE 8090
 
@@ -18,10 +18,10 @@ EXPOSE 8090
 RUN ./mvnw dependency:go-offline
 
 # COPIAR EL CODIGO FUENTE DENTRO DEL CONTENEDOR
-COPY ./src /root/microservice-student/src
+COPY ./src /root/src
 
 # CONSTRUIR NUESTRA APLICACION
 RUN ./mvnw clean install -DskipTests -e
 
 # LEVANTAR NUESTRA APLICACION CUANDO EL CONTENEDOR INICIE
-ENTRYPOINT ["java","-jar","/root/microservice-student/target/microservice-student-1.0-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "/root/target/microservice-student-1.0-SNAPSHOT.jar"]

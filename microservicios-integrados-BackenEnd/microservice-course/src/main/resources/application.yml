@@ -1,32 +1,5 @@
-server:
-  port: 9090
-  forward-headers-strategy: framework
-
 spring:
   application:
     name: micro-service-course
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://postgrest_container_DB:5432/coursesDB
-    username: postgres
-    password: admin
-  jpa:
-    hibernate:
-      ddl-auto: update
-    database: postgresql
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
   config:
-    import: "optional:configserver:http://localhost:8888"
-eureka:
-  instance:
-    hostname: localhost
-  client:
-    service-url:
-      defaultZone: http://micro-service-eureka:8761/eureka
-
-springdoc:
-  version: '@springdoc.version@'
-  api-docs:
-    version: openapi_3_1
-  cache:
-    disabled: true
+    import: optional:configserver:http://microservice-config:8888

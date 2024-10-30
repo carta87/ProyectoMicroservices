@@ -3,7 +3,8 @@ version: "3.9"
 networks:
   microservices_network:
     external: true
-    name: microservicios-integrados-backenend_microservices_network
+    name: microservices_network
+
 services:
   microservice-config:
     image: microservice-config-image:latest
@@ -15,10 +16,35 @@ services:
       - "8888:8888"
     networks:
       - microservices_network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://microservice-config:8888/actuator/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  micro-service-eureka:
+    image: microservice-eureka-image:latest
+    container_name: micro-service-eureka
+    build: ./microservice-eureka
+    expose:
+      - "8761"
+    ports:
+      - "8761:8761"
+    networks:
+      - microservices_network
+    depends_on:
+      microservice-config:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -f http://micro-service-eureka:8761/eureka/apps || exit 1" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   mysql_container:
     image: mysql
     container_name: mysql_container_DB
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: micro_services
@@ -36,31 +62,19 @@ services:
   postgrest_container:
     image: postgres
     container_name: postgrest_container_DB
+    restart: unless-stopped
     environment:
       POSTGRES_DB: coursesDB
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: admin
     volumes:
-      - ./postgres-dataDB:/data/postgres
+      - postgres_container-volume:/var/lib/postgresql/data
     expose:
       - "5435"
     ports:
       - "5435:5432"
     networks:
       - microservices_network
-
-  micro-service-eureka:
-    image: microservice-eureka-image:latest
-    container_name: micro-service-eureka
-    build: ./microservice-eureka
-    expose:
-      - "8761"
-    ports:
-      - "8761:8761"
-    networks:
-      - microservices_network
-    depends_on:
-      - microservice-config
 
   micro-service-api-getewa:
     image: microservice-gateway-image:latest
@@ -73,38 +87,26 @@ services:
     networks:
       - microservices_network
     depends_on:
-      - microservice-config
-      - micro-service-eureka
+      microservice-config:
+        condition: service_healthy
+      micro-service-eureka:
+        condition: service_healthy
 
-  microservice-auth:
+  micro-service-auth:
     image: microservice-auth-image:latest
-    container_name: microservice-auth
+    container_name: micro-service-auth
     build: ./microservice-auth
+    expose:
+      - "8092"
     ports:
       - "8092:8092"
     networks:
       - microservices_network
     depends_on:
-      - microservice-config
-      - micro-service-eureka
-      - micro-service-api-getewa
-      - mysql_container
-
-  micro-service-report:
-    image: microservice-report-image:latest
-    container_name: micro-service-report
-    build: ./microservice-report
-    expose:
-      - "8091"
-    ports:
-      - "8091:8091"
-    networks:
-      - microservices_network
-    depends_on:
-      - microservice-config
-      - micro-service-eureka
-      - micro-service-api-getewa
-      - mysql_container
+      microservice-config:
+        condition: service_healthy
+      micro-service-eureka:
+        condition: service_healthy
 
   micro-service-student:
     image: microservice-student-image:latest
@@ -117,26 +119,48 @@ services:
     networks:
       - microservices_network
     depends_on:
-      - microservice-config
-      - micro-service-eureka
-      - micro-service-api-getewa
-      - mysql_container
+      microservice-config:
+        condition: service_healthy
+      micro-service-eureka:
+        condition: service_healthy
 
-  microservice-course:
+  micro-service-course:
     image: microservice-course-image:latest
-    container_name: microservice-course
+    container_name: micro-service-course
     build: ./microservice-course
+    expose:
+      - "9090"
     ports:
       - "9090:9090"
     networks:
       - microservices_network
     depends_on:
-      - microservice-config
-      - micro-service-eureka
-      - micro-service-api-getewa
-      - postgrest_container
-      - micro-service-student
+      microservice-config:
+        condition: service_healthy
+      micro-service-eureka:
+        condition: service_healthy
+
+  micro-service-report:
+    image: microservice-report-image:latest
+    container_name: micro-service-report
+    build: ./microservice-report
+    expose:
+      - "8091"
+    ports:
+      - "8091:8091"
+    networks:
+      - microservices_network
+    depends_on:
+      microservice-config:
+        condition: service_healthy
+      micro-service-eureka:
+        condition: service_healthy
 
 volumes:
   mysql_container-volume:
     driver: local
+  postgres_container-volume:
+    driver: local
+
+
+

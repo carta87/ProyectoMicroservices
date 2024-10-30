@@ -5,12 +5,12 @@ FROM openjdk:17-jdk-slim
 RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
 
 # DEFINIR DIRECTORIO RAIZ DE NUESTRO CONTENEDOR
-WORKDIR /root/microservice-config
+WORKDIR /root
 
 # COPIAR Y PEGAR ARCHIVOS DENTRO DEL CONTENEDOR
-COPY ./pom.xml /root/microservice-config
-COPY ./.mvn /root/microservice-config/.mvn
-COPY ./mvnw /root/microservice-config
+COPY ./pom.xml /root
+COPY ./.mvn /root/.mvn
+COPY ./mvnw /root
 
 EXPOSE 8888
 
@@ -18,10 +18,10 @@ EXPOSE 8888
 RUN ./mvnw dependency:go-offline
 
 # COPIAR EL CODIGO FUENTE DENTRO DEL CONTENEDOR
-COPY ./src /root/microservice-config/src
+COPY ./src /root/src
 
 # CONSTRUIR NUESTRA APLICACION
 RUN ./mvnw clean install -DskipTests -e
 
 # LEVANTAR NUESTRA APLICACION CUANDO EL CONTENEDOR INICIE
-ENTRYPOINT ["java","-jar","/root/microservice-config/target/microservice-config-1.0-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "/root/target/microservice-config-1.0-SNAPSHOT.jar"]

@@ -11,8 +11,6 @@ jw:
 spring:
   application:
     name: micro-service-auth
-  config:
-    import: optional:configserver:http://localhost:8888
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://mysql_container_DB:3306/micro_services
@@ -23,6 +21,7 @@ spring:
       ddl-auto: update
     database: mysql
     database-platform: org.hibernate.dialect.MySQLDialect
+    show-sql: true
 
 eureka:
   client:

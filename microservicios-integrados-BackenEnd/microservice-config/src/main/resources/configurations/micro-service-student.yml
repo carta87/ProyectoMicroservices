@@ -1,6 +1,3 @@
-server:
-  port: 8090
-
 spring:
   application:
     name: micro-service-student
@@ -14,10 +11,9 @@ spring:
       ddl-auto: update
     database: mysql
     database-platform: org.hibernate.dialect.MySQLDialect
-
+server:
+  port: 8090
 eureka:
-  instance:
-    hostname: localhost
   client:
     service-url:
       defaultZone: http://micro-service-eureka:8761/eureka
