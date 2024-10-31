@@ -1,0 +1,16 @@
+server:
+  port: 8761
+
+spring:
+  application:
+    name: micro-service-eureka
+
+eureka:
+  instance:
+    hostname: localhost
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    prefer-ip-address: false
+  client:
+    fetch-registry: false
+    register-with-eureka: false
+    defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/

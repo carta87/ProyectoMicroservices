@@ -1,0 +1,11 @@
+com\microservice\gateway\config\AuthenticationFilter$Config.class
+com\microservice\gateway\exception\advice\ErrorHandler.class
+com\microservice\gateway\exception\exception\JwtException.class
+com\microservice\gateway\config\AuthenticationFilter.class
+com\microservice\gateway\config\ContextPathRewritePathGatewayFilterFactory.class
+com\microservice\gateway\MicroserviceGatewayApplication.class
+com\microservice\gateway\util\JwtUtil.class
+com\microservice\gateway\dto\ErrorDTO$ErrorDTOBuilder.class
+com\microservice\gateway\config\Swagger.class
+com\microservice\gateway\config\RouteValidator.class
+com\microservice\gateway\dto\ErrorDTO.class

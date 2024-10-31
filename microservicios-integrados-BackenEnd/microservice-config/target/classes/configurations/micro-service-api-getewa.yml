@@ -1,0 +1,90 @@
+server:
+  port: 8080
+
+jw:
+  secret:
+    key: 586E3272357538782F413F4428472B4B6250655368566B597033733676397924
+
+spring:
+  application:
+    name: micro-service-api-getewa
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      global-cors:
+        cors-configurations:
+          '[/**]': &global-cors-config
+            allowedOrigins:
+              - "http://localhost:4200"
+              - "http://localhost:8080"
+              - "http://localhost:8092"
+            allowedMethods: "GET, POST, PUT, DELETE, OPTIONS"
+            allowedHeaders: "Content-Type, Authorization, Accept"
+            allowCredentials: "true"
+          '/micro-services/student-micro/**':
+            <<: *global-cors-config
+          '/micro-services/course-micro/**':
+            <<: *global-cors-config
+          '/micro-services/auth-micro/**':
+            <<: *global-cors-config
+      routes:
+        #Usar el esquema lb:// para balanceo de carga
+        - id: auth-micro-service
+          uri: lb://micro-service-auth  #http://microservice-auth:8092
+          predicates:
+            - Path=/auth-micro/**, /micro-services/auth-micro/**
+          filters:
+            - AuthenticationFilter
+            - ContextPathRewritePath=/micro-services/auth-micro/(?<path>.*), /$\{path}
+            - RewritePath=/auth-micro/(?<path>.*), /$\{path}
+        - id: student-micro-service
+          uri: lb://micro-service-student #http://micro-service-student:8090
+          predicates:
+            - Path=/student-micro/**, /micro-services/student-micro/**
+          filters:
+            - AuthenticationFilter
+            - ContextPathRewritePath=/micro-services/student-micro/(?<path>.*), /$\{path}
+            - RewritePath=/student-micro/(?<path>.*), /$\{path}
+        - id: course-micro-service
+          uri: lb://micro-service-course #http://micro-service-course:9090
+          predicates:
+            - Path=/course-micro/**, /micro-services/course-micro/**
+          filters:
+            - AuthenticationFilter
+            - ContextPathRewritePath=/micro-services/course-micro/(?<path>.*), /$\{path}
+            - RewritePath=/course-micro/(?<path>.*), /$\{path}
+        - id: openapi-proxy
+          uri: https://demos.springdoc.org
+          predicates:
+            - Path=/micro-services/v3/api-docs/**
+          filters:
+            - RewritePath=/micro-services/v3/api-docs/(?<path>.*), /micro-services/$\{path}/v3/api-docs
+        - id: openapi
+          uri: http://localhost:${server.port}
+          predicates:
+            - Path=/v3/api-docs/**
+          filters:
+            - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
+eureka:
+  client:
+    service-url:
+      defaultZone: http://micro-service-eureka:8761/eureka
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} ${LOG_LEVEL_PATTERN:-%5p} %m%n"
+  level:
+    org.springframework.cloud.gateway: TRACE
+    org.springframework.http.server.reactive: TRACE
+
+springdoc:
+  cache:
+    disabled: true
+  version: '@springdoc.version@'
+  swagger-ui:
+    use-root-path: true
+  api-docs:
+    version: openapi_3_1
