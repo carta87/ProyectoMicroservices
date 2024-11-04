@@ -6,7 +6,7 @@ import {
 } from '@angular/common/http';
 import { inject, Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../environments/environment.prod';
 import { LogingRequest } from '../../common/modelos/loginRequest.model';
 import { LoginResponse } from '../../common/modelos/loginResponse.model';
 
