@@ -1,0 +1,183 @@
+services:
+  # Servicio de microservice-config
+  - type: docker
+    name: microservice-config
+    docker:
+      build:
+        dockerfilePath: ./microservicios-integrados-BackenEnd/microservice-config/Dockerfile
+      run:
+        command: "docker run -p 8888:8888 microservice-config-image"
+      envVars:
+        - key: "ENVIRONMENT"
+          value: "production"
+      healthCheck:
+        path: "/actuator/health"
+        protocol: "http"
+        intervalSeconds: 30
+        retries: 3
+        timeoutSeconds: 10
+
+  # Servicio de micro-service-eureka
+  - type: docker
+    name: micro-service-eureka
+    docker:
+      build:
+        dockerfilePath: ./microservicios-integrados-BackenEnd/microservice-eureka/Dockerfile
+      run:
+        command: "docker run -p 8761:8761 microservice-eureka-image"
+      envVars:
+        - key: "ENVIRONMENT"
+          value: "production"
+      healthCheck:
+        path: "/eureka/apps"
+        protocol: "http"
+        intervalSeconds: 30
+        retries: 3
+        timeoutSeconds: 10
+
+  # Servicio MySQL (Base de datos)
+  - type: postgres
+    name: mysql-container-db
+    plan: "db-standard-512"
+    envVars:
+      - key: "MYSQL_ROOT_PASSWORD"
+        value: "root"
+      - key: "MYSQL_DATABASE"
+        value: "micro_services"
+      - key: "MYSQL_USER"
+        value: "admin"
+      - key: "MYSQL_PASSWORD"
+        value: "admin"
+    healthCheck:
+      path: "/"
+      protocol: "tcp"
+      port: 3306
+      intervalSeconds: 30
+      retries: 3
+      timeoutSeconds: 10
+
+  # Servicio PostgreSQL (Base de datos)
+  - type: postgres
+    name: postgrest-container-db
+    plan: "db-standard-512"
+    envVars:
+      - key: "POSTGRES_DB"
+        value: "coursesDB"
+      - key: "POSTGRES_USER"
+        value: "postgres"
+      - key: "POSTGRES_PASSWORD"
+        value: "admin"
+    healthCheck:
+      path: "/"
+      protocol: "tcp"
+      port: 5432
+      intervalSeconds: 30
+      retries: 3
+      timeoutSeconds: 10
+
+  # Servicio micro-service-api-getewa (API Gateway)
+  - type: docker
+    name: micro-service-api-getewa
+    docker:
+      build:
+        dockerfilePath: ./microservicios-integrados-BackenEnd/microservice-gateway/Dockerfile
+      run:
+        command: "docker run -p 8080:8080 microservice-gateway-image"
+      envVars:
+        - key: "ENVIRONMENT"
+          value: "production"
+      healthCheck:
+        path: "/"
+        protocol: "http"
+        intervalSeconds: 30
+        retries: 3
+        timeoutSeconds: 10
+
+  # Servicio micro-service-auth (Autenticación)
+  - type: docker
+    name: micro-service-auth
+    docker:
+      build:
+        dockerfilePath: ./microservicios-integrados-BackenEnd/microservice-auth/Dockerfile
+      run:
+        command: "docker run -p 8092:8092 microservice-auth-image"
+      envVars:
+        - key: "ENVIRONMENT"
+          value: "production"
+      healthCheck:
+        path: "/"
+        protocol: "http"
+        intervalSeconds: 30
+        retries: 3
+        timeoutSeconds: 10
+
+  # Servicio micro-service-student (Estudiantes)
+  - type: docker
+    name: micro-service-student
+    docker:
+      build:
+        dockerfilePath: ./microservicios-integrados-BackenEnd/microservice-student/Dockerfile
+      run:
+        command: "docker run -p 8090:8090 microservice-student-image"
+      envVars:
+        - key: "ENVIRONMENT"
+          value: "production"
+      healthCheck:
+        path: "/"
+        protocol: "http"
+        intervalSeconds: 30
+        retries: 3
+        timeoutSeconds: 10
+
+  # Servicio micro-service-course (Cursos)
+  - type: docker
+    name: micro-service-course
+    docker:
+      build:
+        dockerfilePath: ./microservicios-integrados-BackenEnd/microservice-course/Dockerfile
+      run:
+        command: "docker run -p 9090:9090 microservice-course-image"
+      envVars:
+        - key: "ENVIRONMENT"
+          value: "production"
+      healthCheck:
+        path: "/"
+        protocol: "http"
+        intervalSeconds: 30
+        retries: 3
+        timeoutSeconds: 10
+
+  # Servicio micro-service-report (Reportes)
+  - type: docker
+    name: micro-service-report
+    docker:
+      build:
+        dockerfilePath: ./microservicios-integrados-BackenEnd/microservice-report/Dockerfile
+      run:
+        command: "docker run -p 8091:8091 microservice-report-image"
+      envVars:
+        - key: "ENVIRONMENT"
+          value: "production"
+      healthCheck:
+        path: "/"
+        protocol: "http"
+        intervalSeconds: 30
+        retries: 3
+        timeoutSeconds: 10
+
+  # Aplicación Angular (Frontend)
+  - type: web
+    name: angular-app
+    build:
+      dockerfilePath: ./microservicios-integrados-FrontEnd/Dockerfile
+    start:
+      command: "npm run start"
+    envVars:
+      - key: "API_URL"
+        value: "http://micro-service-api-getewa:8080"
+    healthCheck:
+      path: "/"
+      protocol: "http"
+      intervalSeconds: 30
+      retries: 3
+      timeoutSeconds: 10
