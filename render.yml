@@ -1,0 +1,169 @@
+# render.yml - Despliegue de microservicios en Render
+
+version: '1.0'
+
+services:
+  # Configuración de microservice-config
+  microservice-config:
+    type: docker
+    name: microservice-config
+    docker:
+      buildCommand: "docker build -t microservice-config-image ./microservicios-integrados-BackenEnd/microservice-config"
+      runCommand: "docker run -p 8888:8888 microservice-config-image"
+      envVars:
+        - key: "ENVIRONMENT"
+          value: "production"
+    healthcheck:
+      url: "http://localhost:8888/actuator/health"
+      interval: 30s
+      retries: 3
+      timeout: 10s
+
+  # Configuración de micro-service-eureka
+  micro-service-eureka:
+    type: docker
+    name: micro-service-eureka
+    docker:
+      buildCommand: "docker build -t microservice-eureka-image ./microservicios-integrados-BackenEnd/microservice-eureka"
+      runCommand: "docker run -p 8761:8761 microservice-eureka-image"
+      envVars:
+        - key: "ENVIRONMENT"
+          value: "production"
+    healthcheck:
+      url: "http://localhost:8761/eureka/apps"
+      interval: 30s
+      retries: 3
+      timeout: 10s
+
+  # Configuración de MySQL
+  mysql-container:
+    type: postgres
+    name: mysql-container-db
+    plan: "db-standard-512"  # Elige un plan adecuado para tu base de datos
+    envVars:
+      - key: "MYSQL_ROOT_PASSWORD"
+        value: "root"
+      - key: "MYSQL_DATABASE"
+        value: "micro_services"
+      - key: "MYSQL_USER"
+        value: "admin"
+      - key: "MYSQL_PASSWORD"
+        value: "admin"
+    healthcheck:
+      url: "mysql://localhost:3306"
+      interval: 30s
+      retries: 3
+      timeout: 10s
+
+  # Configuración de Postgres
+  postgrest-container:
+    type: postgres
+    name: postgrest-container-db
+    plan: "db-standard-512"  # Elige un plan adecuado para tu base de datos
+    envVars:
+      - key: "POSTGRES_DB"
+        value: "coursesDB"
+      - key: "POSTGRES_USER"
+        value: "postgres"
+      - key: "POSTGRES_PASSWORD"
+        value: "admin"
+    healthcheck:
+      url: "postgres://localhost:5432"
+      interval: 30s
+      retries: 3
+      timeout: 10s
+
+  # Configuración del microservicio API Gateway
+  micro-service-api-getewa:
+    type: docker
+    name: micro-service-api-getewa
+    docker:
+      buildCommand: "docker build -t microservice-gateway-image ./microservicios-integrados-BackenEnd/microservice-gateway"
+      runCommand: "docker run -p 8080:8080 microservice-gateway-image"
+    envVars:
+      - key: "ENVIRONMENT"
+        value: "production"
+    healthcheck:
+      url: "http://localhost:8080"
+      interval: 30s
+      retries: 3
+      timeout: 10s
+
+  # Microservicio de autenticación
+  micro-service-auth:
+    type: docker
+    name: micro-service-auth
+    docker:
+      buildCommand: "docker build -t microservice-auth-image ./microservicios-integrados-BackenEnd/microservice-auth"
+      runCommand: "docker run -p 8092:8092 microservice-auth-image"
+    envVars:
+      - key: "ENVIRONMENT"
+        value: "production"
+    healthcheck:
+      url: "http://localhost:8092"
+      interval: 30s
+      retries: 3
+      timeout: 10s
+
+  # Microservicio de estudiantes
+  micro-service-student:
+    type: docker
+    name: micro-service-student
+    docker:
+      buildCommand: "docker build -t microservice-student-image ./microservicios-integrados-BackenEnd/microservice-student"
+      runCommand: "docker run -p 8090:8090 microservice-student-image"
+    envVars:
+      - key: "ENVIRONMENT"
+        value: "production"
+    healthcheck:
+      url: "http://localhost:8090"
+      interval: 30s
+      retries: 3
+      timeout: 10s
+
+  # Microservicio de cursos
+  micro-service-course:
+    type: docker
+    name: micro-service-course
+    docker:
+      buildCommand: "docker build -t microservice-course-image ./microservicios-integrados-BackenEnd/microservice-course"
+      runCommand: "docker run -p 9090:9090 microservice-course-image"
+    envVars:
+      - key: "ENVIRONMENT"
+        value: "production"
+    healthcheck:
+      url: "http://localhost:9090"
+      interval: 30s
+      retries: 3
+      timeout: 10s
+
+  # Microservicio de reportes
+  micro-service-report:
+    type: docker
+    name: micro-service-report
+    docker:
+      buildCommand: "docker build -t microservice-report-image ./microservicios-integrados-BackenEnd/microservice-report"
+      runCommand: "docker run -p 8091:8091 microservice-report-image"
+    envVars:
+      - key: "ENVIRONMENT"
+        value: "production"
+    healthcheck:
+      url: "http://localhost:8091"
+      interval: 30s
+      retries: 3
+      timeout: 10s
+
+  # Aplicación Angular
+  angular-app:
+    type: web
+    name: angular-app
+    buildCommand: "npm run build --prod"
+    startCommand: "npm run start"
+    envVars:
+      - key: "API_URL"
+        value: "http://micro-service-api-getewa:8080"  # El endpoint de la API Gateway
+    healthcheck:
+      url: "http://localhost:4200"
+      interval: 30s
+      retries: 3
+      timeout: 10s
