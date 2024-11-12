@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-11-04T13:08:29-0500",
-    comments = "version: 1.5.3.Final, compiler: Eclipse JDT (IDE) 3.40.0.z20241023-1306, environment: Java 17.0.13 (Eclipse Adoptium)"
+    date = "2024-11-06T14:04:00-0500",
+    comments = "version: 1.5.3.Final, compiler: javac, environment: Java 17.0.9 (Oracle Corporation)"
 )
 @Component
 public class StudentMapperImpl implements StudentMapper {
@@ -39,12 +39,12 @@ public class StudentMapperImpl implements StudentMapper {
 
         StudentDTO.StudentDTOBuilder studentDTO = StudentDTO.builder();
 
-        studentDTO.attendant( mapToDto( studentEntity.getAttendant() ) );
-        studentDTO.courseNumber( studentEntity.getCourseNumber() );
-        studentDTO.email( studentEntity.getEmail() );
         studentDTO.id( studentEntity.getId() );
-        studentDTO.lastName( studentEntity.getLastName() );
         studentDTO.name( studentEntity.getName() );
+        studentDTO.lastName( studentEntity.getLastName() );
+        studentDTO.email( studentEntity.getEmail() );
+        studentDTO.courseNumber( studentEntity.getCourseNumber() );
+        studentDTO.attendant( mapToDto( studentEntity.getAttendant() ) );
 
         return studentDTO.build();
     }
@@ -57,12 +57,12 @@ public class StudentMapperImpl implements StudentMapper {
 
         StudentEntity.StudentEntityBuilder studentEntity = StudentEntity.builder();
 
-        studentEntity.attendant( attendantDTOToAttendantEntity( studentDTO.getAttendant() ) );
-        studentEntity.courseNumber( studentDTO.getCourseNumber() );
-        studentEntity.email( studentDTO.getEmail() );
         studentEntity.id( studentDTO.getId() );
-        studentEntity.lastName( studentDTO.getLastName() );
         studentEntity.name( studentDTO.getName() );
+        studentEntity.lastName( studentDTO.getLastName() );
+        studentEntity.email( studentDTO.getEmail() );
+        studentEntity.courseNumber( studentDTO.getCourseNumber() );
+        studentEntity.attendant( attendantDTOToAttendantEntity( studentDTO.getAttendant() ) );
 
         return studentEntity.build();
     }
@@ -75,10 +75,10 @@ public class StudentMapperImpl implements StudentMapper {
 
         AttendantDTO.AttendantDTOBuilder attendantDTO = AttendantDTO.builder();
 
-        attendantDTO.email( attendantEntity.getEmail() );
         attendantDTO.id( attendantEntity.getId() );
-        attendantDTO.lastName( attendantEntity.getLastName() );
         attendantDTO.name( attendantEntity.getName() );
+        attendantDTO.lastName( attendantEntity.getLastName() );
+        attendantDTO.email( attendantEntity.getEmail() );
 
         return attendantDTO.build();
     }
@@ -90,10 +90,10 @@ public class StudentMapperImpl implements StudentMapper {
 
         AttendantEntity.AttendantEntityBuilder attendantEntity = AttendantEntity.builder();
 
-        attendantEntity.email( attendantDTO.getEmail() );
         attendantEntity.id( attendantDTO.getId() );
-        attendantEntity.lastName( attendantDTO.getLastName() );
         attendantEntity.name( attendantDTO.getName() );
+        attendantEntity.lastName( attendantDTO.getLastName() );
+        attendantEntity.email( attendantDTO.getEmail() );
 
         return attendantEntity.build();
     }

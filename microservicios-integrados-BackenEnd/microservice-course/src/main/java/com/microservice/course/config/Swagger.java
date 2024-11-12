@@ -34,6 +34,10 @@ import org.springframework.http.HttpHeaders;
                 @Server(
                         description = "DEV SERVER - API GATEWAY",
                         url = "http://localhost:9090"
+                ),
+                @Server(
+                        description = "SERVER RENDER - MICRO-COURSE",
+                        url = "https://micro-service-api-getewa-v1.onrender.com/course-micro"
                 )
         },
         security = @SecurityRequirement(

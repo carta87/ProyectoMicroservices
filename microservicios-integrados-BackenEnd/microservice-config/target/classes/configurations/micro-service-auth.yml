@@ -12,21 +12,21 @@ spring:
   application:
     name: micro-service-auth
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://mysql_container_DB:3306/micro_services
-    username: admin
-    password: admin
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://dpg-cslbd33qf0us738qqojg-a.virginia-postgres.render.com:5432/proyecto_microservices_sav8
+    username: root
+    password: jbhvUvQaX9AkFGKiOXYxE2Ak339ghjhS
   jpa:
     hibernate:
       ddl-auto: update
-    database: mysql
-    database-platform: org.hibernate.dialect.MySQLDialect
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
 
 eureka:
   client:
     service-url:
-      defaultZone: http://micro-service-eureka:8761/eureka
+      defaultZone: https://microservice-eureka-v1.onrender.com/eureka
 
 springdoc:
   version: '@springdoc.version@'

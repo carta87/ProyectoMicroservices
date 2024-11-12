@@ -1,5 +1,6 @@
 com\microservice\auth\config\DeleagtedAuthenticationEntryPoint.class
 com\microservice\auth\service\IAuthService.class
+com\microservice\auth\exception\exceptiongeneric\NotUsernameFoundException.class
 com\microservice\auth\dto\AuthResponse$AuthResponseBuilder.class
 com\microservice\auth\jpa\entity\UserEntity$UserEntityBuilder.class
 com\microservice\auth\exception\advice\ErrorHandler.class
@@ -20,7 +21,6 @@ com\microservice\auth\controller\AuthController.class
 com\microservice\auth\jpa\entity\UserEntity2.class
 com\microservice\auth\jpa\entity\RoleEntity.class
 com\microservice\auth\dto\LoginRequest.class
-com\microservice\auth\exception\exception\NotUsernameFoundException.class
 com\microservice\auth\service\implementacion\AuthService.class
 com\microservice\auth\jpa\entity\UserEntity2$UserEntity2Builder.class
 com\microservice\auth\MicroserviceAuthApplication.class

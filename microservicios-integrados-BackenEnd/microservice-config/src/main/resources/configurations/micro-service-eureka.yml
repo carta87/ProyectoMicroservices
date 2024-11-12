@@ -7,10 +7,10 @@ spring:
 
 eureka:
   instance:
-    hostname: localhost
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    hostname: microservice-eureka-v1.onrender.com  # Actualiza esto con el dominio de tu servicio en Render
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}  # Puede mantenerse igual si no necesitas un valor estático
     prefer-ip-address: false
   client:
     fetch-registry: false
     register-with-eureka: false
-    defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+    defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/  # Actualiza con la URL pública de Eureka

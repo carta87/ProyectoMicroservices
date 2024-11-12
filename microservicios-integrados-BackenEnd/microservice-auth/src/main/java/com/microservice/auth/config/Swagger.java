@@ -34,6 +34,10 @@ import org.springframework.http.HttpHeaders;
                 @Server(
                         description = "DEV SERVER - MICRO-AUTH",
                         url = "http://localhost:8092"
+                ),
+                @Server(
+                        description = "SERVER RENDER - MICRO-AUTH",
+                        url = "https://micro-service-api-getewa-v1.onrender.com/auth-micro"
                 )
         },
         security = @SecurityRequirement(

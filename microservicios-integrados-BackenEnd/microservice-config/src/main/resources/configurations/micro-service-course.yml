@@ -6,9 +6,9 @@ spring:
     name: micro-service-course
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://postgrest_container_DB:5432/coursesDB
-    username: postgres
-    password: admin
+    url: jdbc:postgresql://dpg-cslbd33qf0us738qqojg-a.virginia-postgres.render.com:5432/proyecto_microservices_sav8
+    username: root
+    password: jbhvUvQaX9AkFGKiOXYxE2Ak339ghjhS
   jpa:
     hibernate:
       ddl-auto: update
@@ -19,7 +19,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://micro-service-eureka:8761/eureka
+      defaultZone: https://microservice-eureka-v1.onrender.com/eureka
 
 logging:
   pattern:
