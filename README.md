@@ -2,6 +2,9 @@
 
 ![alt text](arquitetura.png)
 
+# eureka -microservices
+
+![alt text](eureka.png)
 
 # BACKEND:  JWT Authentication Project (Spring Boot)
 
