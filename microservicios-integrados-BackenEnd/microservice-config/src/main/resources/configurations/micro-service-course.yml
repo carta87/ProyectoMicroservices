@@ -5,21 +5,23 @@ spring:
   application:
     name: micro-service-course
   datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://postgrest_container_DB:5432/coursesDB
-    username: postgres
-    password: admin
+    url: jdbc:sqlserver://servidor-microservios.database.windows.net:1433;databaseName=microservicios_DB;
+    username: admin-microservicios
+    password: Carta87.
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    hikari:
+      maximum-pool-size: 10  # Ajusta este valor según la cantidad de conexiones simultáneas
   jpa:
     hibernate:
       ddl-auto: update
-    database: postgresql
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    database: sqlserver
+    database-platform: org.hibernate.dialect.SQLServerDialect
     show-sql: true
 
 eureka:
   client:
     service-url:
-      defaultZone: http://micro-service-eureka:8761/eureka
+      defaultZone: https://web-microservicios-eureka-c2etd5a9ezgggsdy.centralus-01.azurewebsites.net/eureka
 
 logging:
   pattern:

@@ -7,10 +7,10 @@ spring:
 
 eureka:
   instance:
-    hostname: localhost
+    hostname: web-microservicios-eureka-c2etd5a9ezgggsdy.centralus-01.azurewebsites.net
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
     prefer-ip-address: false
   client:
     fetch-registry: false
     register-with-eureka: false
-    defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+    defaultZone: https://${eureka.instance.hostname}:${server.port}/eureka/

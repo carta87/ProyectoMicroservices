@@ -28,6 +28,10 @@ import org.springframework.http.HttpHeaders;
         ),
         servers = {
                 @Server(
+                        description = "DEV SERVER - API GATEWAY - AZURE",
+                        url = "https://web-microservicios-gateway-b8epcnfwd7c6evak.centralus-01.azurewebsites.net/course-micro"
+                ),
+                @Server(
                         description = "DEV SERVER - API GATEWAY",
                         url = "http://localhost:8080/course-micro"
                 ),

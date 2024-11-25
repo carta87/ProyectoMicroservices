@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "micro-service-report", url = "http://micro-service-report:8091")
+@FeignClient(name = "micro-service-report", url = "https://web-microservicios-report-ctezhcefatbthggf.centralus-01.azurewebsites.net/")
 public interface ReporteClient {
 
     @PostMapping(path = "reports/comprobantePago")

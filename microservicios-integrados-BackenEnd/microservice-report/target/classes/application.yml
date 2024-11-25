@@ -2,5 +2,5 @@ spring:
   application:
     name: micro-service-report
   config:
-    import: optional:configserver:http://microservice-config:8888
+    import: optional:configserver:https://web-microservicios-c2c6gvefavahhghn.centralus-01.azurewebsites.net/
 

@@ -18,6 +18,8 @@ spring:
         cors-configurations:
           '[/**]': &global-cors-config
             allowedOrigins:
+              - "https://web-microservicios-gateway-b8epcnfwd7c6evak.centralus-01.azurewebsites.net"
+              - "https://web-portal-app-cke2ghfpgparacaj.centralus-01.azurewebsites.net"
               - "http://localhost:4200"
               - "http://localhost:8080"
               - "http://localhost:8092"
@@ -33,7 +35,7 @@ spring:
       routes:
         #Usar el esquema lb:// para balanceo de carga
         - id: auth-micro-service
-          uri: lb://micro-service-auth  #http://microservice-auth:8092
+          uri: https://web-microservices-auth-e2etfrhzgkdygwev.centralus-01.azurewebsites.net #lb://micro-service-auth  #http://microservice-auth:8092
           predicates:
             - Path=/auth-micro/**, /micro-services/auth-micro/**
           filters:
@@ -41,7 +43,7 @@ spring:
             - ContextPathRewritePath=/micro-services/auth-micro/(?<path>.*), /$\{path}
             - RewritePath=/auth-micro/(?<path>.*), /$\{path}
         - id: student-micro-service
-          uri: lb://micro-service-student #http://micro-service-student:8090
+          uri: https://web-microservices-students-d8dsfwhnhjecgwd3.centralus-01.azurewebsites.net #lb://micro-service-student #http://micro-service-student:8090
           predicates:
             - Path=/student-micro/**, /micro-services/student-micro/**
           filters:
@@ -49,7 +51,7 @@ spring:
             - ContextPathRewritePath=/micro-services/student-micro/(?<path>.*), /$\{path}
             - RewritePath=/student-micro/(?<path>.*), /$\{path}
         - id: course-micro-service
-          uri: lb://micro-service-course #http://micro-service-course:9090
+          uri: https://web-microservicios-course-cvargdhea9c2eebt.centralus-01.azurewebsites.net #lb://micro-service-course #http://micro-service-course:9090
           predicates:
             - Path=/course-micro/**, /micro-services/course-micro/**
           filters:
@@ -63,7 +65,7 @@ spring:
           filters:
             - RewritePath=/micro-services/v3/api-docs/(?<path>.*), /micro-services/$\{path}/v3/api-docs
         - id: openapi
-          uri: http://localhost:${server.port}
+          uri: https://web-microservicios-gateway-b8epcnfwd7c6evak.centralus-01.azurewebsites.net
           predicates:
             - Path=/v3/api-docs/**
           filters:
@@ -71,7 +73,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://micro-service-eureka:8761/eureka
+      defaultZone: https://web-microservicios-eureka-c2etd5a9ezgggsdy.centralus-01.azurewebsites.net/eureka
 
 logging:
   pattern:

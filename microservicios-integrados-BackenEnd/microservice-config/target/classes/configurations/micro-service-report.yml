@@ -5,17 +5,19 @@ spring:
   application:
     name: micro-service-report
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://mysql_container_DB:3306/micro_services
-    username: admin
-    password: admin
+    url: jdbc:sqlserver://servidor-microservios.database.windows.net:1433;databaseName=microservicios_DB;
+    username: admin-microservicios
+    password: Carta87.
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    hikari:
+      maximum-pool-size: 10  # Ajusta este valor según la cantidad de conexiones simultáneas
   jpa:
     hibernate:
       ddl-auto: update
-    database: mysql
-    database-platform: org.hibernate.dialect.MySQLDialect
+    database: sqlserver
+    database-platform: org.hibernate.dialect.SQLServerDialect
     show-sql: true
 eureka:
   client:
     service-url:
-      defaultZone: http://micro-service-eureka:8761/eureka
+      defaultZone: https://web-microservicios-eureka-c2etd5a9ezgggsdy.centralus-01.azurewebsites.net/eureka
